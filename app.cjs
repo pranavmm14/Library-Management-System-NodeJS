@@ -12,10 +12,8 @@ app.use("/api", routes);
 
 // Connect to MongoDB and Start Server
 mongoose
-    .connect("mongodb://127.0.0.1:27017/library", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
+    // .connect("mongodb://127.0.0.1:27017/library")
+    .connect("mongodb+srv://baxis65942:jurhfgggaLHTtM78@cluster0.2ctsd.mongodb.net/library")
     .then(() => {
         console.log("Connected to MongoDB");
         app.listen(3000, () => {
