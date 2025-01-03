@@ -32,10 +32,27 @@ exports.loginUser = async (req, res) => {
 };
 
 exports.getAllUsers = async (req, res) => {
-    const users = await User.find();
-    if (!users) {
-        return res.status(404).send("No Users Found");
-    } else {
-        res.status(200).json(users);
+    try {
+        if(!req.header("Authorization")){
+            return res.status(403).send("Access denied. Admins only.")
+        }
+        const token = req.header("Authorization").replace("Bearer ", "");
+        const decoded = jwt.verify(token, secretKey); // Use secretKey from config
+        const user = await User.findById(decoded.id);
+
+        // Check if the user is an admin
+        if (!user || !user.admin) {
+            return res.status(403).send("Access denied. Admins only.");
+        }
+
+        const users = await User.find();
+        if (!users || users.length === 0) {
+            return res.status(404).send("No Users Found");
+        } else {
+            res.status(200).json(users);
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error fetching users");
     }
 };

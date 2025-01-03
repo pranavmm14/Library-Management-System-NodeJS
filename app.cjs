@@ -7,6 +7,7 @@ const app = express();
 app.use(express.json());
 
 // Use Routes
+app.all('/', (req, res) => res.send("Library Management System Application"));
 app.use("/api", routes);
 
 // Connect to MongoDB and Start Server
