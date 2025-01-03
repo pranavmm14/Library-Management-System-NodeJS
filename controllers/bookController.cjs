@@ -1,6 +1,7 @@
 const Book = require("../models/Book.cjs");
 const Borrow = require("../models/Borrow.cjs");
 const Return = require("../models/Return.cjs");
+const User = require("../models/User.cjs");
 
 exports.createBook = async (req, res) => {
     const { name, author, genre } = req.body;
@@ -27,6 +28,18 @@ exports.updateBook = async (req, res) => {
     const updatedData = req.body;
 
     try {
+        if (!req.header("Authorization")) {
+            return res.status(403).send("Access denied. Admins only.");
+        }
+        const token = req.header("Authorization").replace("Bearer ", "");
+        const decoded = jwt.verify(token, secretKey); // Use secretKey from config
+        const user = await User.findById(decoded.id);
+
+        // Check if the user is an admin
+        if (!user || !user.admin) {
+            return res.status(403).send("Access denied. Admins only.");
+        }
+
         const updatedBook = await Book.findByIdAndUpdate(id, updatedData, {
             new: true,
             runValidators: true,
@@ -48,6 +61,7 @@ exports.updateBook = async (req, res) => {
         });
     }
 };
+
 
 exports.borrowBook = async (req, res) => {
     const { username, bookid } = req.body;

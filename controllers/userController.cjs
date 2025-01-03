@@ -1,6 +1,6 @@
 const User = require("../models/User.cjs");
 const jwt = require("jsonwebtoken");
-const { secretKey } = require("../config/jwt.cjs");
+const secretKey = process.env.JWT_SECRET;
 
 exports.registerUser = async (req, res) => {
     const { name, username, password, email, mobile, isAdmin } = req.body;
