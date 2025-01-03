@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>📚 Library Management System</h1>
+        <p>Backend Application for Efficient Library Operations</p>
+    </header>
+
+    <main>
+        <section class="overview">
+            <h2>Overview</h2>
+            <p>
+                This backend application is designed using <strong>Node.js</strong>, <strong>Express.js</strong>, and 
+                <strong>MongoDB</strong>. It provides a robust system to manage books, users, and library transactions efficiently.
+            </p>
+        </section>
+
+        <section class="features">
+            <h2>Features</h2>
+            <ul>
+                <li>📖 Manage books: Add, update, borrow, and return.</li>
+                <li>👥 User management: Register, login, and admin functionalities.</li>
+                <li>🔒 JWT Authentication: Secure access to routes and resources.</li>
+                <li>🌐 RESTful API integration for seamless communication.</li>
+            </ul>
+        </section>
+
+        <section class="installation">
+            <h2>Installation Guide</h2>
+            <ol>
+                <li>Clone the repository:
+                    <pre><code>git clone https://github.com/pranavmm14/Library-Management-System-NodeJS.git</code></pre>
+                </li>
+                <li>Navigate to the project folder:
+                    <pre><code>cd Library-Management-System-NodeJS</code></pre>
+                </li>
+                <li>Install dependencies:
+                    <pre><code>npm install</code></pre>
+                </li>
+                <li>Create a `.env` file and configure:
+                    <pre>
+<code>PORT=3000
+MONGO_URI=<Your MongoDB URI>
+JWT_SECRET=<Your JWT Secret Key></code></pre>
+                </li>
+                <li>Start the server:
+                    <pre><code>npm start</code></pre>
+                </li>
+            </ol>
+        </section>
+
+        <section class="routes">
+            <h2>API Endpoints</h2>
+            <p>Explore the following API routes for interacting with the library system:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Endpoint</th>
+                        <th>Method</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>/register</td>
+                        <td>POST</td>
+                        <td>Register a new user</td>
+                    </tr>
+                    <tr>
+                        <td>/login</td>
+                        <td>POST</td>
+                        <td>User login</td>
+                    </tr>
+                    <tr>
+                        <td>/users</td>
+                        <td>GET</td>
+                        <td>Get all users (Admin Only)</td>
+                    </tr>
+                    <tr>
+                        <td>/books</td>
+                        <td>GET</td>
+                        <td>Fetch all books</td>
+                    </tr>
+                    <tr>
+                        <td>/books</td>
+                        <td>POST</td>
+                        <td>Add a new book (Admin Only)</td>
+                    </tr>
+                    <tr>
+                        <td>/books/:id</td>
+                        <td>PUT</td>
+                        <td>Update book details (Admin Only)</td>
+                    </tr>
+                    <tr>
+                        <td>/borrow</td>
+                        <td>POST</td>
+                        <td>Borrow a book</td>
+                    </tr>
+                    <tr>
+                        <td>/return</td>
+                        <td>POST</td>
+                        <td>Return a book</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="footer-link">
+            <p>For more details, check the <a href="https://github.com/pranavmm14/Library-Management-System-NodeJS" target="_blank">GitHub Repository</a>.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Library Management System. Developed with ❤️ by Pranav Mehendale.</p>
+    </footer>
+    <script>
+        // Function to copy the command to clipboard
+        function copyCode(command) {
+            navigator.clipboard.writeText(command)
+                .then(() => {
+                    alert("Command copied to clipboard!");
+                })
+                .catch(err => {
+                    console.error("Failed to copy command: ", err);
+                });
+        }
+    </script>
+</body>
+</html>
