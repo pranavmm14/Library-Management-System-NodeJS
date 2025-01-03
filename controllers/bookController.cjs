@@ -1,4 +1,6 @@
 const Book = require("../models/Book.cjs");
+const Borrow = require("../models/Borrow.cjs");
+const Return = require("../models/Return.cjs");
 
 exports.createBook = async (req, res) => {
     const { name, author, genre } = req.body;
@@ -21,15 +23,14 @@ exports.getBooks = async (req, res) => {
 };
 
 exports.updateBook = async (req, res) => {
-    const { bookId } = req.params; // Book ID from URL parameters
-    const updatedData = req.body; // Updated fields from request body
+    const { id } = req.params;
+    const updatedData = req.body;
 
     try {
-        const updatedBook = await Book.findByIdAndUpdate(
-            bookId,
-            updatedData,
-            { new: true, runValidators: true } // Options to return the updated book and validate changes
-        );
+        const updatedBook = await Book.findByIdAndUpdate(id, updatedData, {
+            new: true,
+            runValidators: true,
+        });
 
         if (!updatedBook) {
             return res.status(404).json({ message: "Book not found" });
@@ -46,4 +47,54 @@ exports.updateBook = async (req, res) => {
             error: error.message,
         });
     }
+};
+
+exports.borrowBook = async (req, res) => {
+    const { username, bookid } = req.body;
+    const book = await Book.findById(bookid);
+    if (!book || !book.available) {
+        return res.status(400).send("Book not available");
+    }
+    const borrow = new Borrow({ username, bookid });
+    await borrow.save();
+    book.available = false;
+    await book.save();
+    res.status(200).send("Book Borrowed");
+};
+
+exports.returnBook = async (req, res) => {
+    const { username, bookid } = req.body;
+
+    // Check if the book has already been returned by the user
+    const existingReturnRecord = await Return.findOne({ username, bookid });
+    if (existingReturnRecord) {
+        return res.status(400).send("This book has already been returned.");
+    }
+
+    // Find the borrow record to ensure the user borrowed the book
+    const borrowRecord = await Borrow.findOne({ username, bookid });
+    if (!borrowRecord) return res.status(400).send("Borrow record not found");
+
+    // Calculate the fine if the book is returned late
+    const fine =
+        Math.max(
+            0,
+            (new Date() - borrowRecord.duedate) / (1000 * 60 * 60 * 24)
+        ) * 10; // Fine calculation (10 per day late)
+
+    // Create and save a new return record
+    const returnRecord = new Return({
+        username,
+        bookid,
+        duedate: borrowRecord.duedate,
+        fine,
+    });
+    await returnRecord.save();
+
+    // Update the book availability
+    const book = await Book.findById(bookid);
+    book.available = true;
+    await book.save();
+
+    res.status(200).send("Book Returned");
 };

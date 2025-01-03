@@ -1,27 +1,25 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 // Controllers
-const userController = require('../controllers/userController.cjs');
-const bookController = require('../controllers/bookController.cjs');
-const borrowController = require('../controllers/borrowController.cjs');
-const returnController = require('../controllers/returnController.cjs');
+const userController = require("../controllers/userController.cjs");
+const bookController = require("../controllers/bookController.cjs");
 
 // User Routes
-router.post('/register', userController.registerUser);
-router.post('/login', userController.loginUser);
-router.get('/users', userController.getAllUsers);
+router.post("/register", userController.registerUser); //ok*admin
+router.post("/login", userController.loginUser); //ok
+router.get("/users", userController.getAllUsers); //ok
 
 // Book Routes
-router.get('/books', bookController.getBooks);
-router.post('/books', bookController.createBook);
-router.put('/books/:id', bookController.updateBook);
+router.get("/books", bookController.getBooks); //ok
+router.post("/books", bookController.createBook); //ok
+router.put("/books/:id", bookController.updateBook); //ok
 
 // Borrow Routes
-router.post('/borrow', borrowController.borrowBook);
+router.post("/borrow", bookController.borrowBook);
 
 // Return Routes
-router.post('/return', returnController.returnBook);
+router.post("/return", bookController.returnBook);
 
 // Export the router
 module.exports = router;

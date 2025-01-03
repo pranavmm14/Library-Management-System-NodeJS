@@ -3,9 +3,17 @@ const jwt = require("jsonwebtoken");
 const { secretKey } = require("../config/jwt.cjs");
 
 exports.registerUser = async (req, res) => {
-    const { name, username, password, email, mobile } = req.body;
+    const { name, username, password, email, mobile, isAdmin } = req.body;
     try {
-        const newUser = new User({ name, username, password, email, mobile });
+        const newUser = new User({
+            name,
+            username,
+            password,
+            email,
+            mobile,
+            admin: isAdmin === true,
+        });
+
         await newUser.save();
         res.status(201).send("User Registered");
     } catch (err) {
