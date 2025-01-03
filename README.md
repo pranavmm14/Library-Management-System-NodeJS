@@ -199,7 +199,7 @@ Use **Postman** or any other API testing tool to test the endpoints.
 ---
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/pranavmm14/Library-Management-System-NodeJS/blob/master/LICENSE) file for details.
 
 ---
 
